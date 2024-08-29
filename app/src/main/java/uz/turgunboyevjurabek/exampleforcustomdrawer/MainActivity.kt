@@ -42,12 +42,16 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import uz.turgunboyevjurabek.exampleforcustomdrawer.core.utils.coloredShadow
 import uz.turgunboyevjurabek.exampleforcustomdrawer.domein.models.CustomDrawerState
 import uz.turgunboyevjurabek.exampleforcustomdrawer.domein.models.NavigationItem
 import uz.turgunboyevjurabek.exampleforcustomdrawer.domein.models.isOpened
 import uz.turgunboyevjurabek.exampleforcustomdrawer.domein.models.opposite
 import uz.turgunboyevjurabek.exampleforcustomdrawer.presentation.components.CustomDrawer
+import uz.turgunboyevjurabek.exampleforcustomdrawer.presentation.navigation.MyNavigation
 import uz.turgunboyevjurabek.exampleforcustomdrawer.ui.theme.ExampleForCustomDrawerTheme
 import kotlin.math.roundToInt
 
@@ -58,7 +62,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             var drawerState by remember { mutableStateOf(CustomDrawerState.Closed) }
             var selectedNavigationItem by remember { mutableStateOf(NavigationItem.Home) }
-
+            val navController = rememberNavController()
             val configuration = LocalConfiguration.current
             val density = LocalDensity.current.density
 
@@ -97,6 +101,7 @@ class MainActivity : ComponentActivity() {
                                 selectedNavigationItem = selectedNavigationItem,
                                 onNavigationItemClick = {
                                     selectedNavigationItem = it
+                                    navController.navigate(it.name)
                                 },
                                 onCloseClick = { drawerState = CustomDrawerState.Closed }
                             )
@@ -112,6 +117,7 @@ class MainActivity : ComponentActivity() {
                                     ),
                                 drawerState = drawerState,
                                 onDrawerClick = { drawerState = it },
+                                navController = navController
                             )
                         }
                     }
@@ -123,10 +129,15 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun MainContent(
+        navController: NavHostController,
         modifier: Modifier = Modifier,
         drawerState: CustomDrawerState,
         onDrawerClick: (CustomDrawerState) -> Unit
     ) {
+        // Hozirgi marshrutni kuzatish
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+
         Scaffold(
             modifier = modifier
                 .fillMaxSize()
@@ -136,11 +147,15 @@ class MainActivity : ComponentActivity() {
                 },
             topBar = {
                 TopAppBar(
+                    modifier = Modifier
+                        .background(Color.Transparent)
+                        .coloredShadow(Color.Yellow, alpha = 0.5f, shadowRadius = 50.dp)
+                        .clip(RoundedCornerShape(bottomEnd = 30.dp, bottomStart = 30.dp)),
                     colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                        containerColor = Color.Transparent
                     ),
                     title = {
-                        Text(text = "Home")
+                        Text(text = currentRoute.toString())
                     },
                     navigationIcon = {
                         IconButton(onClick = { onDrawerClick(drawerState.opposite()) }) {
@@ -152,15 +167,13 @@ class MainActivity : ComponentActivity() {
                     }
                 )
             }
-        ) {
+        ) {innerPadding ->
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize(),
             ) {
-                Text(
-                    text = "Home",
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                    fontWeight = FontWeight.Medium
-                )
+                MyNavigation(navController = navController)
             }
         }
     }

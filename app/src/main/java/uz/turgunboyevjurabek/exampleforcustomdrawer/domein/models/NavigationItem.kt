@@ -12,7 +12,6 @@ enum class NavigationItem(
     val title:String,
     val icon:ImageVector
 ) {
-
     Home(
         icon = Icons.Default.Home,
         title ="Home"
