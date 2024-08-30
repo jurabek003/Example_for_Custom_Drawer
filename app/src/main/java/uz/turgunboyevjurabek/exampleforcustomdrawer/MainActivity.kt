@@ -148,11 +148,9 @@ class MainActivity : ComponentActivity() {
             topBar = {
                 TopAppBar(
                     modifier = Modifier
-                        .background(Color.Transparent)
-                        .coloredShadow(Color.Yellow, alpha = 0.5f, shadowRadius = 50.dp)
                         .clip(RoundedCornerShape(bottomEnd = 30.dp, bottomStart = 30.dp)),
                     colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.Transparent
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer
                     ),
                     title = {
                         Text(text = currentRoute.toString())

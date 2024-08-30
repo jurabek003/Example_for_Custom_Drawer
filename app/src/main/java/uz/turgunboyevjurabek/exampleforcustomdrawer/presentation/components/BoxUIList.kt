@@ -15,10 +15,6 @@ fun BoxUIList() {
     Card(
         modifier = Modifier
             .height(Random.nextInt(100,300).dp)
-//            .coloredShadow(
-//                color = Color.Yellow,
-//                alpha = 0.3f
-//            )
     ) {
 
     }
