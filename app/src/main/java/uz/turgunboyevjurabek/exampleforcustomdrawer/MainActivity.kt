@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import uz.turgunboyevjurabek.exampleforcustomdrawer.core.utils.coloredShadow
 import uz.turgunboyevjurabek.exampleforcustomdrawer.domein.models.CustomDrawerState
 import uz.turgunboyevjurabek.exampleforcustomdrawer.domein.models.NavigationItem
@@ -54,7 +55,7 @@ import uz.turgunboyevjurabek.exampleforcustomdrawer.presentation.components.Cust
 import uz.turgunboyevjurabek.exampleforcustomdrawer.presentation.navigation.MyNavigation
 import uz.turgunboyevjurabek.exampleforcustomdrawer.ui.theme.ExampleForCustomDrawerTheme
 import kotlin.math.roundToInt
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

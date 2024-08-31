@@ -5,7 +5,7 @@ import uz.turgunboyevjurabek.exampleforcustomdrawer.data.dto.LoremPicsumItemDto
 import uz.turgunboyevjurabek.exampleforcustomdrawer.domein.models.LoremPicsum
 
 interface ApiService {
-    @GET
+    @GET("list")
     suspend fun getLorem(): List<LoremPicsumItemDto>
 
 }

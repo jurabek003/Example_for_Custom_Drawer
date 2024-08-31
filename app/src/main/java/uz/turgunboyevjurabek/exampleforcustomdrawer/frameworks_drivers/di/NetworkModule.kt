@@ -1,4 +1,4 @@
-package uz.turgunboyevjurabek.exampleforcustomdrawer.data.di
+package uz.turgunboyevjurabek.exampleforcustomdrawer.frameworks_drivers.di
 
 import dagger.Module
 import dagger.Provides
@@ -22,7 +22,7 @@ object NetworkModule {
     @Provides
     fun provideGetRetrofit2(okHttpClient: OkHttpClient):Retrofit{
         return Retrofit.Builder()
-            .baseUrl("https://picsum.photos/v2/list")
+            .baseUrl("https://picsum.photos/v2/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
